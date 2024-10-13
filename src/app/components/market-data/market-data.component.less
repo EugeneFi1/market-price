@@ -1,0 +1,26 @@
+.market-data {
+  display: flex;
+  justify-content: center;
+  border: 1px solid var(--mdc-outlined-button-outline-color, #74777f);
+  border-radius: 4px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+
+  &__item {
+    width: 200px;
+    text-align: center;
+
+    &_title {
+      font-size: 0.875rem;
+      //font-weight: bold;
+      font-weight: 500;
+      color: var(--mdc-outlined-button-label-text-color, #005cbb);
+    }
+  }
+
+  &__empty-content {
+    height: 70px;
+    text-align: center;
+    line-height: 70px;
+  }
+}

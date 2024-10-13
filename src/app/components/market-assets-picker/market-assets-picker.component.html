@@ -1,0 +1,25 @@
+@if (_marketAssets$ | async; as marketAssets) {
+<div class="market-assets-picker">
+  <mat-form-field appearance="outline">
+    <mat-label>Market assets:</mat-label>
+    <mat-select>
+      @for (asset of marketAssets; track asset) {
+      <mat-option
+        (onSelectionChange)="_changeMarketAsset($event)"
+        [value]="asset"
+        >{{ asset.symbol }}</mat-option
+      >
+      }
+    </mat-select>
+  </mat-form-field>
+  <button
+    mat-stroked-button
+    (click)="_subscribeMarketAsset()"
+    [disabled]="!_selectedMarketAsset"
+  >
+    Subscribe
+  </button>
+</div>
+} @else {
+<mat-progress-bar style="height: 76px" mode="indeterminate"></mat-progress-bar>
+}

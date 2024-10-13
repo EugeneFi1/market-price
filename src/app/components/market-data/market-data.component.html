@@ -1,0 +1,26 @@
+@if(_state$ | async; as state) {
+<div class="market-data">
+  <div class="market-data__item">
+    <div class="market-data__item_title">Symbol:</div>
+    <div>{{ state.selectedMarketAsset.symbol }}</div>
+  </div>
+
+  <div class="market-data__item">
+    <div class="market-data__item_title">Price:</div>
+    <div>{{ state.symbolIcon }} {{ state.selectedMarketAssetInfo?.price }}</div>
+  </div>
+
+  <div class="market-data__item">
+    <div class="market-data__item_title">Time:</div>
+    <div>
+      {{
+        (state.selectedMarketAssetInfo?.time | date : "MMM d, h:mm:ss a") || "-"
+      }}
+    </div>
+  </div>
+</div>
+} @else {
+<div class="market-data__empty-content">
+  <span>No Market Asset selected</span>
+</div>
+}
