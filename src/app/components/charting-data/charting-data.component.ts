@@ -4,9 +4,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MarketAssetState } from '../../services/market-asset.state';
-
-import { HIGHCHARTS_MODULES } from 'angular-highcharts';
-import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
 import { EmptyContentComponent } from '../shared/empty-content/empty-content.component';
 
 @Component({
@@ -15,9 +12,6 @@ import { EmptyContentComponent } from '../shared/empty-content/empty-content.com
   styleUrl: './charting-data.component.less',
   standalone: true,
   imports: [HighchartsChartModule, EmptyContentComponent],
-  providers: [
-    { provide: HIGHCHARTS_MODULES, useFactory: () => [NoDataToDisplay] },
-  ],
 })
 export class ChartingDataComponent implements OnInit {
   public _highcharts: typeof Highcharts = Highcharts;
