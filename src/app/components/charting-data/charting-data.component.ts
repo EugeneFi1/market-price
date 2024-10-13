@@ -5,17 +5,25 @@ import Highcharts from 'highcharts';
 import { HighchartsChartModule } from 'highcharts-angular';
 import { MarketAssetState } from '../../services/market-asset.state';
 
+import { HIGHCHARTS_MODULES } from 'angular-highcharts';
+import NoDataToDisplay from 'highcharts/modules/no-data-to-display';
+import { EmptyContentComponent } from '../shared/empty-content/empty-content.component';
+
 @Component({
   selector: 'app-charting-data',
   templateUrl: './charting-data.component.html',
   styleUrl: './charting-data.component.less',
   standalone: true,
-  imports: [HighchartsChartModule],
+  imports: [HighchartsChartModule, EmptyContentComponent],
+  providers: [
+    { provide: HIGHCHARTS_MODULES, useFactory: () => [NoDataToDisplay] },
+  ],
 })
 export class ChartingDataComponent implements OnInit {
   public _highcharts: typeof Highcharts = Highcharts;
   public _chartOptions: Highcharts.Options = {
-    series: [{ type: 'line', data: [] }],
+    series: [{ type: 'line' }],
+    data: {},
     credits: undefined,
     title: undefined,
     yAxis: {
@@ -47,6 +55,7 @@ export class ChartingDataComponent implements OnInit {
     },
   };
   public _updateChart: boolean = true;
+  public _noData = true;
   private destroyRef = inject(DestroyRef);
 
   constructor(private state: MarketAssetState) {}
@@ -56,6 +65,7 @@ export class ChartingDataComponent implements OnInit {
       .select('historyData')
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((data) => {
+        this._noData = !data.length;
         this._chartOptions.series = [
           {
             type: 'line',
@@ -72,10 +82,4 @@ export class ChartingDataComponent implements OnInit {
         this._updateChart = true;
       });
   }
-
-  // public _test(e: unknown): void {
-  //   console.log(e)
-  //   e!.hideNoData();
-  //   e!.showNoData("No Data Available...");
-  // }
 }
