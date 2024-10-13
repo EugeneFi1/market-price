@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { webSocket, WebSocketSubject } from 'rxjs/webSocket';
 import { Observable } from 'rxjs';
 import { WebSocketMessage } from '../models/web-socket.model';
+import { getMarketDataMessage } from '../config/web-socket';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +10,7 @@ import { WebSocketMessage } from '../models/web-socket.model';
 export class WebSocketService {
   public messages$?: Observable<WebSocketMessage>;
   private webSocket$?: WebSocketSubject<unknown>;
+  private currentSubscribedInstrumentId?: string;
 
   public connect(token: string): Observable<WebSocketMessage> {
     this.webSocket$ = webSocket(
@@ -17,15 +19,15 @@ export class WebSocketService {
     return this.webSocket$.asObservable() as Observable<WebSocketMessage>;
   }
 
-  public sendMessage(instrumentId: string): void {
-    this.webSocket$?.next({
-      type: 'l1-subscription',
-      id: '1',
-      instrumentId,
-      provider: 'simulation',
-      subscribe: true,
-      kinds: ['ask', 'bid', 'last'],
-    });
+  public subscribeMarketData(instrumentId: string): void {
+    // unsubscribe from previous market data subscription
+    if (this.currentSubscribedInstrumentId) {
+      this.webSocket$?.next(
+        getMarketDataMessage(this.currentSubscribedInstrumentId, false)
+      );
+    }
+    this.currentSubscribedInstrumentId = instrumentId;
+    this.webSocket$?.next(getMarketDataMessage(instrumentId));
   }
 
   public disconnect(): void {

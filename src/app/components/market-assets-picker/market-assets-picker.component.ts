@@ -49,7 +49,7 @@ export class MarketAssetsPicker implements OnInit {
   public _subscribeMarketAsset(): void {
     if (this._selectedMarketAsset) {
       this.state.set('selectedMarketAsset', () => this._selectedMarketAsset!);
-      this.webSocketService.sendMessage(this._selectedMarketAsset.id);
+      this.webSocketService.subscribeMarketData(this._selectedMarketAsset.id);
     }
   }
 }
