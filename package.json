@@ -1,6 +1,10 @@
 {
   "name": "market-price",
   "version": "0.0.0",
+  "author": {
+    "name": "Yevhenii Filonenko",
+    "email": "eugenefil.ua@gmail.com"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",

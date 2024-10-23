@@ -12,7 +12,10 @@
 </div>
 
 } @else {
-<div class="app-container__empty-content">
+  <app-login-form
+    (login)="login($event)"
+  ></app-login-form>
+<!-- <div class="app-container__empty-content">
   <mat-spinner diameter="50"></mat-spinner>
-</div>
+</div> -->
 }

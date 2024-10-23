@@ -11,12 +11,15 @@ import { MarketAssetInfo } from '../models/market-asset-state.model';
 export class ApiService {
   constructor(private httpClient: HttpClient) {}
 
-  public getToken(): Observable<{ access_token: string }> {
+  public getToken(
+    username: string,
+    password: string
+  ): Observable<{ access_token: string }> {
     let body = new URLSearchParams();
     body.set('grant_type', 'password');
     body.set('client_id', 'app-cli');
-    body.set('username', 'r_test@fintatech.com');
-    body.set('password', 'kisfiz-vUnvy9-sopnyv');
+    body.set('username', username);
+    body.set('password', password);
 
     return this.httpClient.post<{ access_token: string }>(
       FINCHARTS_ROUTES.GET_TOKEN,

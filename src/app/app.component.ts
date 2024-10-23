@@ -7,6 +7,7 @@ import { MarketAssetState } from './services/market-asset.state';
 import { ApiService } from './services/rest-api.service';
 import { WebSocketService } from './services/web-socket.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoginFormComponent } from './core/components/login-form/login-form.component';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MarketDataComponent,
     ChartingDataComponent,
     MatProgressSpinnerModule,
+    LoginFormComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.less',
@@ -32,13 +34,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     const token = sessionStorage.getItem('token');
-
+    console.log('sdsd');
     if (!token) {
-      this.apiService.getToken().subscribe(({ access_token }) => {
-        sessionStorage.setItem('token', access_token);
-        this.connectToWebSocket(access_token);
-        this.isAuthorized = true;
-      });
+      // this.apiService.getToken().subscribe(({ access_token }) => {
+      //   sessionStorage.setItem('token', access_token);
+      //   this.connectToWebSocket(access_token);
+      //   this.isAuthorized = true;
+      // });
     } else {
       this.connectToWebSocket(token);
     }
@@ -46,6 +48,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.webSocketService.disconnect();
+  }
+
+  public login(token: string): void {
+    sessionStorage.setItem('token', token);
+    this.connectToWebSocket(token);
+    this.isAuthorized = true;
   }
 
   private connectToWebSocket(token: string): void {
